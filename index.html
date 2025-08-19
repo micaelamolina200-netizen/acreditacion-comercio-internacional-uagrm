@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Acreditación · Comercio Internacional – UAGRM</title>
+  <meta name="description" content="Repositorio de documentos para acreditación: resumen ejecutivo y áreas 1 a 5.">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <style>
+    :root{
+      --rojo:#d32f2f; 
+      --azul:#0d47a1; 
+      --gris:#f4f6f8; 
+      --texto:#1f2937; 
+      --borde:#e5e7eb;
+    }
+    *{box-sizing:border-box}
+    body{margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Ubuntu,Arial,sans-serif; color:var(--texto); background:var(--gris);}
+    header{
+      background:linear-gradient(135deg,var(--rojo),var(--azul));
+      color:#fff; padding:28px 16px;
+    }
+    .wrap{max-width:980px; margin:0 auto; padding:0 16px;}
+    h1{margin:0 0 8px; font-size:clamp(1.5rem,3.2vw,2rem); font-weight:800; letter-spacing:.2px}
+    .sub{opacity:.9; margin:0}
+    .logo{height:70px; margin-right:16px; border-radius:8px; background:#fff; padding:6px}
+    .headflex{display:flex; align-items:center; gap:14px; flex-wrap:wrap;}
+    main{padding:24px 0 40px}
+    .grid{display:grid; gap:16px; grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+    .card{
+      background:#fff; border:1px solid var(--borde); border-radius:16px; padding:16px;
+      display:flex; flex-direction:column; gap:12px; transition:transform .15s ease, box-shadow .15s ease;
+    }
+    .card:hover{transform:translateY(-2px); box-shadow:0 10px 24px rgba(0,0,0,.06)}
+    .tag{display:inline-flex; align-items:center; gap:8px; font-size:.85rem; color:#374151}
+    .tag i{width:8px;height:8px;border-radius:50%;background:var(--rojo)}
+    h2{margin:0; font-size:1.05rem}
+    p{margin:0; line-height:1.45}
+    .btns{display:flex; gap:8px; flex-wrap:wrap; margin-top:4px}
+    .btn{
+      appearance:none; border:1px solid var(--borde); background:#fff; color:#111827;
+      padding:10px 12px; border-radius:12px; cursor:pointer; font-weight:600; text-decoration:none;
+      transition:background .15s ease, border-color .15s ease;
+    }
+    .btn:hover{background:#f9fafb; border-color:#d1d5db}
+    .btn.primary{background:var(--rojo); color:#fff; border-color:transparent}
+    .btn.primary:hover{filter:brightness(1.04)}
+    .panel{
+      display:grid; grid-template-columns:1fr 320px; gap:20px; margin-top:20px;
+    }
+    @media (max-width:880px){ .panel{grid-template-columns:1fr} }
+    .aside{
+      background:#fff; border:1px solid var(--borde); border-radius:16px; padding:16px;
+      position:sticky; top:16px;
+    }
+    .qrbox{display:flex; flex-direction:column; align-items:center; gap:12px}
+    canvas{border:1px solid var(--borde); border-radius:12px; background:#fff}
+    .foot{margin-top:8px; font-size:.9rem; color:#4b5563; text-align:center}
+    .note{font-size:.92rem; color:#4b5563}
+    .callout{background:#fff; border-left:4px solid var(--azul); padding:12px 14px; border-radius:12px; border:1px solid var(--borde)}
+    .muted{color:#6b7280}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap headflex">
+      <!-- Logo (puedes reemplazar el src por el tuyo) -->
+      <img class="logo" src="https://upload.wikimedia.org/wikipedia/commons/4/48/UAGRM_logo.png" alt="Logo Comercio Internacional UAGRM">
+      <div>
+        <h1>Acreditación · Comercio Internacional – UAGRM</h1>
+        <p class="sub">Repositorio de documentos para consulta y descarga (Resumen Ejecutivo y Áreas 1–5).</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="panel">
+      <section>
+        <div class="callout" role="note" aria-label="Instrucciones">
+          <strong>Cómo usar:</strong> haz clic en <em>Ver</em> para abrir el documento en una pestaña nueva o <em>Descargar</em> para guardarlo en tu dispositivo.
+          <div class="note" style="margin-top:6px">Coloca tus PDFs en la carpeta <code>docs/</code> del repositorio con los nombres indicados abajo.</div>
+        </div>
+
+        <div class="grid" id="cards"></div>
+      </section>
+
+      <aside class="aside" aria-label="Código QR del sitio">
+        <div class="qrbox">
+          <h2>QR del repositorio</h2>
+          <p class="note" style="text-align:center">
+            Escanea para abrir este listado desde tu celular.
+          </p>
+          <canvas id="qr" width="270" height="270" aria-label="QR del sitio"></canvas>
+          <a id="downloadQR" class="btn" download="qr-acreditacion.png">Descargar QR</a>
+          <div class="foot">El QR apunta a la URL actual de esta página.</div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
+  <script>
+    const DOCS = [
+      { title: "¿Qué es la acreditación?", file: "acreditacion.pdf", desc: "Explicación general del proceso de acreditación." },
+      { title: "Resumen Ejecutivo para la Acreditación", file: "resumen_ejecutivo.pdf", desc: "Síntesis de los elementos clave del proceso." },
+      { title: "Área 1", file: "area1.pdf", desc: "Documentación del Área 1." },
+      { title: "Área 2", file: "area2.pdf", desc: "Documentación del Área 2." },
+      { title: "Área 3", file: "area3.pdf", desc: "Documentación del Área 3." },
+      { title: "Área 4", file: "area4.pdf", desc: "Documentación del Área 4." },
+      { title: "Área 5", file: "area5.pdf", desc: "Documentación del Área 5." }
+    ];
+
+    const cards = document.getElementById('cards');
+    DOCS.forEach(doc => {
+      const url = `docs/${doc.file}`;
+      const el = document.createElement('article');
+      el.className = 'card';
+      el.innerHTML = `
+        <span class="tag"><i></i> Recurso · PDF</span>
+        <h2>${doc.title}</h2>
+        <p>${doc.desc}</p>
+        <div class="btns">
+          <a class="btn primary" href="${url}" target="_blank" rel="noopener">Ver</a>
+          <a class="btn" href="${url}" download>Descargar</a>
+        </div>
+      `;
+      cards.appendChild(el);
+    });
+
+    // QR dinámico
+    const currentURL = window.location.href.split('#')[0];
+    const canvas = document.getElementById('qr');
+    const tmp = document.createElement('div');
+    const qr = new QRCode(tmp, { text: currentURL, width: canvas.width, height: canvas.height });
+    const img = tmp.querySelector('img');
+    const genCanvas = tmp.querySelector('canvas');
+    function drawToCanvas(source){
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width, h = canvas.height;
+      ctx.clearRect(0,0,w,h); ctx.fillStyle="#fff"; ctx.fillRect(0,0,w,h);
+      if (source instanceof HTMLImageElement){
+        source.onload = () => ctx.drawImage(source,0,0,w,h);
+        if (source.complete) ctx.drawImage(source,0,0,w,h);
+      } else if (source instanceof HTMLCanvasElement){ ctx.drawImage(source,0,0,w,h);}
+    }
+    if (img) drawToCanvas(img); else if (genCanvas) drawToCanvas(genCanvas);
+    document.getElementById('downloadQR').addEventListener('click', e=>{
+      e.currentTarget.href = canvas.toDataURL('image/png');
+    });
+  </script>
+</body>
+</html>
